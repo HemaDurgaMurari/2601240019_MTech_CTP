@@ -1,0 +1,41 @@
+def merge(left, right, count):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        count[0] += 1
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+
+def merge_sort(ages, count):
+    if len(ages) <= 1:
+        return ages
+    mid = len(ages) // 2
+    left = merge_sort(ages[:mid], count)
+    right = merge_sort(ages[mid:], count)
+    return merge(left, right, count)
+
+
+def run_case(name, ages):
+    count = [0]
+    result = merge_sort(ages, count)
+    print(name)
+    print("Input  :", ages)
+    print("Output :", result)
+    print("Comparisons:", count[0])
+    print("Time Complexity: O(n log n)")
+    print()
+
+
+ages = list(map(int, input("Enter passenger ages separated by space: ").split()))
+
+run_case("Random Input (as entered)", ages[:])
+run_case("Already Sorted Input", sorted(ages))
+run_case("Reverse Sorted Input", sorted(ages, reverse=True))
